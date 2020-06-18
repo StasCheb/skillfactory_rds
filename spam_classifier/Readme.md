@@ -1,7 +1,5 @@
-В этом задании надо написать классификатор спама 
-и обучить на данных, собранных американской анти-спам 
-платформой Apache SpamAssassin Project.
+In this task, you need to write a spam classifier and train on data collected by the American anti-spam platform Apache SpamAssassin Project.
 
-1. Написать модель, которая по тексту предсказывает, спам это или нет.
-2. Обернуть модель в сервис, чтобы почтовые сервисы могли общаться с моделью – присылать ей письма и получать в ответ «спам/не спам».
+1. Write a model that predicts by text whether it is spam or not.
+2. Wrap the model in a service so that mail services can communicate with the model – send her emails and receive a "spam/not spam" response.
 
