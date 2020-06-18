@@ -1,2 +1,2 @@
-# Skillfactory_course
+# skillfactory_rds
 Works from Skillfactory course
