@@ -25,6 +25,6 @@ Recommendation Challenge v4.ipynb - ноутбук с обработкой да�
 Датасет food_dict_prepared.csv, использованный для деплоя сервиса на heroku и сохраненная модель не прошли по размеру на github.
 
 Kaggle
-Stas(https://www.kaggle.com/stanislav8) 0.74700
+Stas(https://www.kaggle.com/stanislav8) 0.74716
 
 Демонстрация работы сервиса с помощью streamlit и heroku: https://sleepy-wildwood-32475.herokuapp.com/
