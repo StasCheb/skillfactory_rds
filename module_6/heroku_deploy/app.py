@@ -35,13 +35,25 @@ def read_files(folder_name='data'):
     Функция для работы с продуктовым словарем
     """
     items = pd.read_csv('food_dict_prepared.csv')
+    items.dropna(subset=['title'], inplace=True)
     items['itemid'] = items['itemid'].astype(str)
     items['price'].fillna('Not Available', inplace=True)
     items['image'].fillna('No Image Available', inplace=True)
     items['image'] = items['image'].apply(lambda x: x[2:-2] if pd.notnull(x) else x)
     items['description'] = items['description'].apply(lambda x: x[2:-2] if pd.notnull(x) else x)
-
+    items['title'] = items['title'].str.extract(r'(\S+\s\S+\s\S+)')
+    items.dropna(subset=['title'], inplace=True)
     return items
+
+
+def get_title(index):
+    # return titles of the item with the index "index"
+    # take: idx of books
+    # return - list of titles
+    titles = []
+    for idx in index:
+        titles.append(items[items['itemid'] == idx]['title'].values[0])
+    return titles
 
 
 def read_reviews(folder_name='data'):
@@ -75,63 +87,66 @@ def product_description(option):
     return choice, img, price, title, brand, desc, rank
 
 
-st.title('Welcome to Recommendation System Prototype')
+st.title('Recommendation System Prototype')
 
 # Загружаем данные
 products = read_files()
 item_embeddings, nms_idx = load_embeddings()
 
-# вводим id или часть id интересующего нас товара
+# вводим title или часть title интересующего нас товара
 product = st.text_input('Search for product...', '')
-
+product = product.lower()
 # находим все подходящие товары в датасете
-output = products[products['itemid'].str.contains(product)]
+try:
+    output = products[products['title'].str.lower().str.contains(product)]
+    # выбираем товар из списка
+    option = st.selectbox('Select product', output['title'].values)
+    options = output[output['title'].values == option].itemid.iloc[0]
+    st.header(f'Product info :')
 
-# выбираем товар из списка
-option = st.selectbox('Select product', output['itemid'].values)
+    # можно посмотреть отзывы покупателей об этом товаре
+    if st.checkbox("Show customers' reviews on the product"):
+        reviews = read_reviews()
+        ch = reviews[reviews['itemid'] == options]
+        rec = ch.drop_duplicates('reviewerName')
+        for name, summary, review in zip(rec['reviewerName'][:5], rec['summary'][:5], rec['reviewText'][:5]):
+            st.subheader(name)
+            st.markdown(f'----*{summary}*----')
+            st.write(review)
+            st.markdown('------')
 
-# выводим информацию о выбранном товаре
-st.header('Product info:')
+    choice, img, price, title, brand, desc, rank = product_description(options)
+    st.image(img, width=150)  # картинка
+    st.markdown(f'**{price}**')
+    st.markdown(f'*{title}*')
+    st.markdown(f'*{brand}*')
+    st.markdown(desc)
 
-# можно посмотреть отзывы покупателей об этом товаре
-if st.checkbox("Show customers' reviews on the product"):
-    reviews = read_reviews()
-    ch = reviews[reviews['itemid'] == option]
-    rec = ch.drop_duplicates('reviewerName')
-    for name, summary, review in zip(rec['reviewerName'][:5], rec['summary'][:5], rec['reviewText'][:5]):
-        st.subheader(name)
-        st.markdown(f'----*{summary}*----')
-        st.write(review)
-        st.markdown('------')
+    # выводим на боковую панель рекомендации к товару
+    st.sidebar.header('Products, you may also like: ')
 
-choice, img, price, title, brand, desc, rank = product_description(option)
-st.image(img, width=150)  # картинка
-st.markdown(f'**{price}**')
-st.markdown(f'*{title}*')
-st.markdown(f'*{brand}*')
-st.markdown(desc)
+    # Ищем рекомендации
+    output = products[products['title'] == option]
+    val_index = output[output['title'].values == option]['itemid'].iloc[0]
+    index = nearest_items_nms(val_index, nms_idx, 5)
 
-# выводим на боковую панель рекомендации к товару
-st.sidebar.header('Products, you may also like: ')
-
-# Ищем рекомендации
-output = products[products['itemid'] == option]
-val_index = output[output['itemid'].values == option]['itemid'].iloc[0]
-index = nearest_items_nms(val_index, nms_idx, 5)
-
-# Выводим для каждой рекомендации инфо о товаре
-for idx in index[0][1:]:
-    try:
-        choice, img, price, title, brand, desc, rank = product_description(str(idx))
+    # Выводим для каждой рекомендации инфо о товаре
+    for idx in index[0][1:]:
         try:
-            # if img !='No Image Available':
-            st.sidebar.image(img, caption=f'Product ID: {idx}')  # картинка
-        #        else:
-        except:
-            st.sidebar.markdown('No Image')
+            choice, img, price, title, brand, desc, rank = product_description(str(idx))
+            try:
+                # if img !='No Image Available':
+                st.sidebar.image(img, caption=f'Product ID: {idx}')  # картинка
+            #        else:
+            except:
+                st.sidebar.markdown('No Image')
 
-        st.sidebar.markdown(f'*{title}*')
-        st.sidebar.markdown(f'**{price}**')
-        st.sidebar.markdown('-----')
-    except:
-        st.sidebar.text('')
+            st.sidebar.markdown(f'*{title}*')
+            st.sidebar.markdown(f'**{price}**')
+            st.sidebar.markdown('-----')
+        except:
+            st.sidebar.text('')
+except:
+    st.header(f'Product not found')
+
+
