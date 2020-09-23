@@ -1,6 +1,7 @@
 # Task
 You need to classify the car by photo.
 Build your own image classifier. The data has already been collected and contains 10 types of car models.
+This project was completed as part of the training competition Data Science Specialization Skillfactory https://www.kaggle.com/c/sf-dl-car-classification
 ### Have been tested:
 - different State of the Art (SOTA)-models. 
 - TTA (Test Time Augmentation).
