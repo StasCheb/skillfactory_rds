@@ -5,3 +5,4 @@ Works from Skillfactory course.
 - **spam_classifier** - It was necessary to write a Naive Bayes spam classifier and train on data collected by the American anti-spam platform Apache SpamAssassin Project.
 - **module_6** - It was necessary to implement an algorithm for building a recommendation system based on the history of user ratings for products, as well as to build a prototype of a working service.
 - **сar_price_prediction** - It was necessary to create a model that will predict the cost of a car based on its characteristics.
+- **car_classification** - It was necessary to classify the car by photo. Build your own image classifier. The data has already been collected and contains 10 types of car models.
