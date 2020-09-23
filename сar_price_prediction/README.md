@@ -2,9 +2,9 @@ Task description. Create a model that will predict the cost of a car based on it
 
 Description of the project files.
 
-1. auto_parser.ipynb. It is intended for parsing data about cars from the site auto.ru and creating the train.csv training dataset.
+1. *auto_parser.ipynb.* It is intended for parsing data about cars from the site **auto.ru** and creating the train.csv training dataset.
 
-2. car_price_prediction.ipynb. Notebook from kaggle with step-by-step solution of the task, including data preprocessing and model building.
+2. *car_price_prediction.ipynb.* Notebook from kaggle with step-by-step solution of the task, including data preprocessing and model building.
 
 The solution of the problem consisted of the following stages: 
 
