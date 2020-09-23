@@ -9,11 +9,11 @@ Build your own image classifier. The data has already been collected and contain
 
 ### Description of the project files
 
-- car_class_EfficientNetB7
+- *car_class_EfficientNetB7* - 
 Experimental notebook for the selection of LR, Batch size, epochs and the size of images with limited RAM. Training to use TTA and advanced augmentation.
 using Albumentations for augmentation, the base model EfficientNetB7, ReduceLROnPlateau, and TTA.
 
-- car_class_Xception
+- *car_class_Xception* - 
 using ImageDataGenerator for augmentation and base model Xception
 __________________________________________________________
 Due to time constraints on kaggle and colab, GeForce GTX 2060 6Gb computer was mostly used.
