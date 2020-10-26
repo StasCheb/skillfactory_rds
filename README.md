@@ -6,3 +6,4 @@ Works from Skillfactory course.
 - **module_6** - It was necessary to implement an algorithm for building a recommendation system based on the history of user ratings for products, as well as to build a prototype of a working service.
 - **сar_price_prediction** - It was necessary to create a model that will predict the cost of a car based on its characteristics.
 - **car_classification** - It was necessary to classify the car by photo. Build your own image classifier. The data has already been collected and contains 10 types of car models.
+- **module_8** - Predicting the price of a car based on its characteristics, description, and photos.
