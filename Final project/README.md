@@ -61,3 +61,8 @@ Creating an anti-fraud system that would improve the company's current transacti
  - selection of hyperparameters,
 5. Evaluation of the model.
 6. Analysis on a validation sample.
+
+-----------------------------------
+# Prototype
+
+https://agile-depths-93022.herokuapp.com/
